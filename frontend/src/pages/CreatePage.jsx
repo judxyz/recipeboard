@@ -1,41 +1,52 @@
 import { useState } from 'react'
-import { Link, useNavigate} from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ArrowLeftIcon } from "lucide-react";
 import toast from 'react-hot-toast';
 import api from '../lib/axios';
 
+const TAGS = ["Breakfast", "Lunch", "Dinner", "Snack", "Dessert"];
 
 const CreatePage = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [url, setUrl] = useState("");
+  const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
+  const handleTagClick = (tag) => {
+    setTags((prev) => prev.includes(tag)
+      ? prev.filter((t) => t !== tag)
+      : [...prev, tag]
+    )
+  }
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // if(!title.trim() || !content.trim()) {
-    //   toast.error("Please provide both title and content");
-    //   return;
-    // }
+    if (!url.trim() || tags.length === 0) {
+      toast.error("Please provide both url and at least 1 tag");
+      return;
+    }
 
     setLoading(true);
+
+      console.log(url, tags)
+
+
     try {
-      await api.post("/notes", {
-        title,
-        content
+      await api.post("/recipes", {
+        url,
+        tags
       });
-      toast.success("Note created successfully");
+      toast.success("Recipe added successfully");
       navigate("/")
     } catch (error) {
-      console.log("Error creating note:", error)
+      console.log("Error adding recipe:", error)
       if (error.response.status === 429) {
-        toast.error("Slow down, you are creating notes too fast.", {
+        toast.error("Too many requests, please try again later.", {
           duration: 4000,
           icon: "⚠️"
         });
       } else {
-          toast.error("Failed to create note.");
+        toast.error("Failed to add recipe.");
       }
     } finally {
       setLoading(false);
@@ -43,44 +54,54 @@ const CreatePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base-200">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          <Link to={"/"} className="btn btn-ghost mb-6">
-            <ArrowLeftIcon className="size-5" />
-            Back to Notes
-          </Link>
+    <div className="min-h-screen bg-base-300">
 
-          <div className="card bg-base-100">
+      <div className="container mx-auto px-4 py-8">
+
+        <div className="max-w-2xl mx-auto ">
+
+          <div className="card bg-base-100 rounded-none border-2">
             <div className="card-body">
-              <h2 className="card-title text-2xl mb-4">Create New Note</h2>
+              <div className="flex items-center mb-4">
+                <Link to="/" className="btn btn-ghost">
+                  <ArrowLeftIcon className="size-8" />
+                </Link>
+                <h2 className="card-title text-2xl">Add New Recipe</h2>
+              </div>
               <form onSubmit={handleSubmit}>
                 <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text">Title</span>
+                  <label className="text-base">URL:
                   </label>
                   <input type="text"
-                    placeholder="Note Title"
-                    className="input input-bordered"
-                    value={title}
-                    onChange={((e) => setTitle(e.target.value))}
+                    className="input w-full rounded-none bg-gray-100 italic mt-2 text-primary border-2 border-primary"
+                    placeholder='Paste link here...'
+                    value={url}
+                    onChange={((e) => setUrl(e.target.value))}
                   />
+
                 </div>
-                <div className='form-control mb-4'>
-                  <label className='label'>
-                    <span className='label-text'>Content</span>
-                  </label>
-                  <textarea
-                    placeholder='Write your note here...'
-                    className='textarea textarea-bordered h-32'
-                    value={content}
-                    onChange={((e) => setContent(e.target.value))}/>
+                <div className="form-control mb-4">
+                  <label className="">Select tags:</label>
+                  <div className=' flex flex-wrap gap-2 mt-2'>
+                    {TAGS.map(tag => (
+                      <button
+                        key={tag}
+                        type="button"
+                        className={`btn btn-outline btn-sm border-2 rounded-full border-black  transition ${tags.includes(tag) ? "bg-primary text-white hover:bg-primary/100 border-black " : "bg-white text-black hover:bg-primary/100 border-black "
+                          }`}
+                        onClick={() => handleTagClick(tag)}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+
+                  </div>
                 </div>
 
                 <div className='card-actions justify-end'>
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? "Creating..." : "Create Note"}
-                </button>
+                  <button type="submit" className="btn btn-primary text-white" disabled={loading}>
+                    {loading ? "Creating..." : "Create Recipe"}
+                  </button>
                 </div>
               </form>
             </div>

@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import notesRoutes from "./routes/notesRoutes.js";
+import recipesRoutes from "./routes/recipesRoutes.js";
 import { connectDB } from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 
@@ -27,7 +27,7 @@ app.use(rateLimiter);
 // });
 
 
-app.use("/api/notes", notesRoutes);
+app.use("/api/recipes", recipesRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {

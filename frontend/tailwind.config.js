@@ -7,10 +7,21 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        black: "#03050C"
+      }
+    },
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["forest"],
+    themes: [{
+      mytheme: {
+        "primary": "#4a6b38",
+        "secondary": "#a6c856",
+        "accent": "#bd4749",
+        "neutral": "#fbfbfe",
+      },
+    }],
   },
 }
