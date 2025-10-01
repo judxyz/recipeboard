@@ -1,5 +1,4 @@
 ## Recipeboard
-august 2025
 ## Project info
 Recipeboard is a full-stack web application for storing a database of digital recipes. Users can search and filter recipes by tags with a responsive UI. 
 
