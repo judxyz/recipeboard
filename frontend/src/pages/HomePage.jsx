@@ -106,11 +106,11 @@ const HomePage = () => {
 
       </header>
 
-        <div className='italic p-0 ml-8 mt-4'>
+        {/* <div className='italic p-0 ml-8 mt-4'>
           <p className="text-sm">
             {filteredRecipes.length} Recipes
           </p>
-        </div>
+        </div> */}
 
 
       {isRateLimited && <RateLimitedUI />}
