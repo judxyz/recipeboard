@@ -13,5 +13,3 @@ Recipeboard is a full-stack web application for storing a database of digital re
 - LinkPreview API
 
 
-deployed at https://recipeboard.onrender.com/
-
