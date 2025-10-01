@@ -7,7 +7,7 @@ Recipeboard is a full-stack web application for storing a database of digital re
 - Tailwind CSS
 - Node.js & Express
 - MongoDB
-- JavaScript – core application logic
+- JavaScript
 - Vite
 - Upstash Redis
 - LinkPreview API
