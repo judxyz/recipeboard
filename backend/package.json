@@ -20,7 +20,8 @@
     "express": "^4.18.2",
     "mongoose": "^8.14.3",
     "normalize-url": "^8.0.2",
-    "recipe-board": "file:.."
+    "recipe-board": "file:..",
+    "recipeboard": "file:.."
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
